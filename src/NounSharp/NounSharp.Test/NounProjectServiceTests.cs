@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Configuration;
+using Xunit;
 
 namespace NounSharp.Test
 {
@@ -15,6 +16,24 @@ namespace NounSharp.Test
 
             // Assert
             Assert.NotNull(target);
+        }
+
+        [Fact]
+        public async void GetCollectionsAsyncReturnsCollections()
+        {
+            // Arrange
+            INounProjectService target = GetService();
+
+            // Act
+            var result = await target.GetCollectionsAsync();
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        private INounProjectService GetService()
+        {
+            return new NounProjectService(ConfigurationManager.AppSettings["apiKey"], ConfigurationManager.AppSettings["apiSecret"]);
         }
     }
 }
