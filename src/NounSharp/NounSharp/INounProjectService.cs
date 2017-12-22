@@ -15,7 +15,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(int id, int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(int id, int? limit = null, int? offset = null, int? page = null);
 
         /// <summary>
         /// Returns a list of icons associated with a collection.
@@ -25,7 +25,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(string slug, int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(string slug, int? limit = null, int? offset = null, int? page = null);
 
         /// <summary>
         /// Returns a single collection.
@@ -50,7 +50,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Collection>> GetCollectionsAsync(int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Collection>> GetCollectionsAsync(int? limit = null, int? offset = null, int? page = null);
 
         // Icon
 
@@ -79,7 +79,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool limitToPublicDomain = false, int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool? limitToPublicDomain = null, int? limit = null, int? offset = null, int? page = null);
 
         /// <summary>
         /// Returns list of most recently uploaded icons.
@@ -88,7 +88,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int? limit = null, int? offset = null, int? page = null);
 
         // User
 
@@ -98,14 +98,14 @@ namespace NounSharp
         /// <param name="userID">user id</param>
         /// <param name="slug">collection slug</param>
         /// <returns></returns>
-        Task<Models.Collection> GetUserCollection(int userID, string slug);
+        Task<Models.Collection> GetUserCollectionAsync(int userID, string slug);
 
         /// <summary>
         /// Returns a list of collections associated with a user.
         /// </summary>
         /// <param name="userID">user id</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Collection>> GetUserCollections(int userID);
+        Task<IEnumerable<Models.Collection>> GetUserCollectionsAsync(int userID);
 
         /// <summary>
         /// Returns a list of uploads associated with a user.
@@ -115,6 +115,6 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        Task<IEnumerable<Models.Icon>> GetUserUploads(string username, int limit = 50, int offset = 0, int page = 1);
+        Task<IEnumerable<Models.Icon>> GetUserUploadsAsync(string username, int? limit = null, int? offset = null, int? page = null);
     }
 }

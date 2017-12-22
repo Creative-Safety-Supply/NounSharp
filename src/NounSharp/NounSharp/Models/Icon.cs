@@ -12,7 +12,7 @@ namespace NounSharp.Models
         public Uri AttributionPreviewUrl { get; protected set; }
 
         [JsonProperty("date_uploaded")]
-        public DateTime DateUploaded { get; protected set; }
+        public DateTime? DateUploaded { get; protected set; }
 
         [JsonProperty("icon_url")]
         public Uri IconUrl { get; protected set; }
@@ -69,6 +69,6 @@ namespace NounSharp.Models
         public int? UploaderID { get; protected set; }
 
         [JsonProperty("year")]
-        public int Year { get; protected set; }
+        public int? Year { get; protected set; }
     }
 }

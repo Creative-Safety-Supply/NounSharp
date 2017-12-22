@@ -63,7 +63,7 @@ namespace NounSharp.Models
         public int? SponsorID { get; protected set; }
 
         [JsonProperty("tags")]
-        public Tag[] Tags { get; protected set; }
+        public string[] Tags { get; protected set; }
 
         [JsonProperty("template")]
         public string Template { get; protected set; }

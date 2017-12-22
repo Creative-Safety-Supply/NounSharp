@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NounSharp.Internal;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -13,9 +14,17 @@ namespace NounSharp
         {
             _client = new RestClient("http://api.thenounproject.com/");
             _client.Authenticator = OAuth1Authenticator.ForRequestToken(apiKey, apiSecret);
+            _requestBuilder = new RequestBuilder();
         }
 
-        private RestSharp.RestClient _client;
+        public NounProjectService(IRestClient client, IRequestBuilder requestBuilder)
+        {
+            _client = client;
+            _requestBuilder = requestBuilder;
+        }
+
+        private IRestClient _client;
+        private IRequestBuilder _requestBuilder;
 
         /// <summary>
         /// Returns a list of icons associated with a collection.
@@ -25,9 +34,18 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(int id, int limit = 50, int offset = 0, int page = 1)
+        public async Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(int id, int? limit = null, int? offset = null, int? page = null)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetCollectionIconsRequest(id, limit, offset, page);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconsResponse>(response.Content)?.Icons;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         /// <summary>
@@ -38,12 +56,9 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(string slug, int limit = 50, int offset = 0, int page = 1)
+        public async Task<IEnumerable<Models.Icon>> GetCollectionIconsAsync(string slug, int? limit = null, int? offset = null, int? page = null)
         {
-            IRestRequest restRequest = new RestRequest("collection/{slug}/icons", Method.GET)
-               .AddUrlSegment("slug", slug);
-
-            var aa = _client.BuildUri(restRequest);
+            IRestRequest restRequest = _requestBuilder.GetCollectionIconsRequest(slug, limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -62,8 +77,7 @@ namespace NounSharp
         /// <returns></returns>
         public async Task<Models.Collection> GetCollectionAsync(int id)
         {
-            IRestRequest restRequest = new RestRequest("collection", Method.GET)
-               .AddParameter("id", id);
+            IRestRequest restRequest = _requestBuilder.GetCollectionRequest(id);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -82,8 +96,7 @@ namespace NounSharp
         /// <returns></returns>
         public async Task<Models.Collection> GetCollectionAsync(string slug)
         {
-            IRestRequest restRequest = new RestRequest("collection", Method.GET)
-               .AddParameter("slug", slug);
+            IRestRequest restRequest = _requestBuilder.GetCollectionRequest(slug);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -104,12 +117,9 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Models.Collection>> GetCollectionsAsync(int limit = 50, int offset = 0, int page = 1)
+        public async Task<IEnumerable<Models.Collection>> GetCollectionsAsync(int? limit = null, int? offset = null, int? page = null)
         {
-            IRestRequest restRequest = new RestRequest("collections", Method.GET)
-                .AddQueryParameter("limit", limit.ToString())
-                .AddQueryParameter("offset", offset.ToString())
-                .AddQueryParameter("page", page.ToString());
+            IRestRequest restRequest = _requestBuilder.GetCollectionsRequest(limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -154,7 +164,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool limitToPublicDomain = false, int limit = 50, int offset = 0, int page = 1)
+        public Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool? limitToPublicDomain = null, int? limit = null, int? offset = null, int? page = null)
         {
             throw new NotImplementedException();
         }
@@ -166,7 +176,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int limit = 50, int offset = 0, int page = 1)
+        public Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int? limit = null, int? offset = null, int? page = null)
         {
             throw new NotImplementedException();
         }
@@ -179,7 +189,7 @@ namespace NounSharp
         /// <param name="userID">user id</param>
         /// <param name="slug">collection slug</param>
         /// <returns></returns>
-        public Task<Models.Collection> GetUserCollection(int userID, string slug)
+        public Task<Models.Collection> GetUserCollectionAsync(int userID, string slug)
         {
             throw new NotImplementedException();
         }
@@ -189,7 +199,7 @@ namespace NounSharp
         /// </summary>
         /// <param name="userID">user id</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Collection>> GetUserCollections(int userID)
+        public Task<IEnumerable<Models.Collection>> GetUserCollectionsAsync(int userID)
         {
             throw new NotImplementedException();
         }
@@ -202,7 +212,7 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetUserUploads(string username, int limit = 50, int offset = 0, int page = 1)
+        public Task<IEnumerable<Models.Icon>> GetUserUploadsAsync(string username, int? limit = null, int? offset = null, int? page = null)
         {
             throw new NotImplementedException();
         }
