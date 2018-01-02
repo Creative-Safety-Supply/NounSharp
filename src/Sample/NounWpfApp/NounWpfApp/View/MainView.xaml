@@ -12,18 +12,32 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 50 0 100">
             <Label Content="Search" />
-            <TextBox x:Name="searchBox" Width="400" />
-            <Button Content="Go" Padding="6 0" Margin="3 0"
+            <TextBox x:Name="searchBox" Width="400" VerticalContentAlignment="Center" />
+            <Button Content="Go" Padding="6 0" Margin="3 0" IsDefault="True"
                     Command="{Binding SearchCommand, Mode=OneWay}"
                     CommandParameter="{Binding Text, ElementName=searchBox}"/>
         </StackPanel>
+        
+        <ItemsControl ItemsSource="{Binding Icons}" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="84" ItemHeight="84" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding PreviewUrl84}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label Content="Key" />
-            <TextBox Width="150" Text="{Binding Key, Mode=TwoWay}" />
+            <TextBox Width="250" Text="{Binding Key, Mode=TwoWay}" VerticalContentAlignment="Center" />
             <Label Content="Secret" />
-            <TextBox Width="150" Text="{Binding Secret, Mode=TwoWay}" />
+            <TextBox Width="250" Text="{Binding Secret, Mode=TwoWay}" VerticalContentAlignment="Center" />
         </StackPanel>
     </Grid>
 </UserControl>
