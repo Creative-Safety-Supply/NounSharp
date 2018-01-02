@@ -39,13 +39,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetCollectionIconsRequest(id, limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconsResponse>(response.Content)?.Icons;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconsResponse, IEnumerable<Models.Icon>>(response.StatusCode, response.Content, res => res?.Icons);
         }
 
         /// <summary>
@@ -61,13 +55,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetCollectionIconsRequest(slug, limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconsResponse>(response.Content)?.Icons;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconsResponse, IEnumerable<Models.Icon>>(response.StatusCode, response.Content, res => res?.Icons);
         }
 
         /// <summary>
@@ -80,13 +68,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetCollectionRequest(id);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.CollectionResponse>(response.Content)?.Collection;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<CollectionResponse, Models.Collection>(response.StatusCode, response.Content, res => res?.Collection);
         }
 
         /// <summary>
@@ -99,13 +81,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetCollectionRequest(slug);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.CollectionResponse>(response.Content)?.Collection;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<CollectionResponse, Models.Collection>(response.StatusCode, response.Content, res => res?.Collection);
         }
 
         // Collections
@@ -122,13 +98,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetCollectionsRequest(limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.CollectionsResponse>(response.Content)?.Collections;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<CollectionsResponse, IEnumerable<Models.Collection>>(response.StatusCode, response.Content, res => res?.Collections);
         }
 
         // Icon
@@ -143,13 +113,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetIconRequest(id);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconResponse>(response.Content)?.Icon;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconResponse, Models.Icon>(response.StatusCode, response.Content, res => res?.Icon);
         }
 
         /// <summary>
@@ -162,13 +126,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetIconRequest(term);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconResponse>(response.Content)?.Icon;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconResponse, Models.Icon>(response.StatusCode, response.Content, res => res?.Icon);
         }
 
         // Icons
@@ -187,13 +145,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetIconsRequest(term, limitToPublicDomain, limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconsResponse>(response.Content)?.Icons;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconsResponse, IEnumerable<Models.Icon>>(response.StatusCode, response.Content, res => res?.Icons);
         }
 
         /// <summary>
@@ -208,13 +160,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetIconRecentUploadsRequest(limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.IconsRecentUploadsResponse>(response.Content)?.RecentUploads;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<IconsRecentUploadsResponse, IEnumerable<Models.Icon>>(response.StatusCode, response.Content, res => res?.RecentUploads);
         }
 
         // User
@@ -230,13 +176,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetUserCollectionRequest(userID, slug);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.CollectionResponse>(response.Content)?.Collection;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<CollectionResponse, Models.Collection>(response.StatusCode, response.Content, res => res?.Collection);
         }
 
         /// <summary>
@@ -249,13 +189,7 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetUserCollectionsRequest(userID);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return JsonConvert.DeserializeObject<Internal.CollectionsResponse>(response.Content)?.Collections;
-            }
-
-            // TODO: Throw exception
-            return null;
+            return HandleResponse<CollectionsResponse, IEnumerable<Models.Collection>>(response.StatusCode, response.Content, res => res?.Collections);
         }
 
         /// <summary>
@@ -271,13 +205,26 @@ namespace NounSharp
             IRestRequest restRequest = _requestBuilder.GetUserUploadsRequest(username, limit, offset, page);
 
             var response = await _client.ExecuteTaskAsync(restRequest);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            return HandleResponse<IconsUserUploadsResponse, IEnumerable<Models.Icon>>(response.StatusCode, response.Content, res => res?.Uploads);
+        }
+
+        private static TResult HandleResponse<TResponse, TResult>(System.Net.HttpStatusCode statusCode, string content, Func<TResponse, TResult> resultSelector)
+        {
+            if (statusCode != System.Net.HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<Internal.IconsUserUploadsResponse>(response.Content)?.Uploads;
+                switch (statusCode)
+                {
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        throw new UnauthorizedAccessException(content);
+                    case System.Net.HttpStatusCode.NotFound:
+                        throw new NotFoundException(content);
+                    default:
+                        throw new System.Net.WebException(content);
+                }
             }
 
-            // TODO: Throw exception
-            return null;
+            TResponse response = JsonConvert.DeserializeObject<TResponse>(content);
+            return resultSelector(response);
         }
     }
 }
