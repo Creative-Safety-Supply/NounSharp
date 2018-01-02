@@ -98,5 +98,117 @@ namespace NounSharp.Test
             Assert.NotNull(result);
             // TODO: Add more checks
         }
+
+        [Fact]
+        public async void GetIconByIdAsyncReturnsIcon()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "icon/{id}"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("icon_id"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetIconAsync(4);
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetIconByTermAsyncReturnsIcon()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "icon/{term}"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("icon_term"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetIconAsync("fun");
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetIconsByTermAsyncReturnsIcons()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "icons/{term}"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("icons_term"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetIconsAsync("fun");
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetRecentUploadIconsAsyncReturnsIcons()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "icons/recent_uploads"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("recent_uploads"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetIconRecentUploadsAsync();
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetUserCollectionsByIdAsyncReturnsCollections()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "user/{user_id}/collections"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("user_collections"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetUserCollectionsAsync(12);
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetUserCollectionByIdAndSlugAsyncReturnsCollection()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "user/{user_id}/collections/{slug}"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("user_collection_slug"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetUserCollectionAsync(12, "fun");
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
+
+        [Fact]
+        public async void GetUserUploadsAsyncReturnsIcons()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "user/{username}/uploads"))).Returns(() => Task.FromResult(RestUtils.GetOkResponse(ResponseResource.ResourceManager.GetString("user_uploads"))));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetUserUploadsAsync("john");
+
+            // Assert
+            Assert.NotNull(result);
+            // TODO: Add more checks
+        }
     }
 }

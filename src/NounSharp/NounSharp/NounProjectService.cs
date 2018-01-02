@@ -138,9 +138,18 @@ namespace NounSharp
         /// </summary>
         /// <param name="id">icon id</param>
         /// <returns></returns>
-        public Task<Models.Icon> GetIconAsync(int id)
+        public async Task<Models.Icon> GetIconAsync(int id)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetIconRequest(id);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconResponse>(response.Content)?.Icon;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         /// <summary>
@@ -148,9 +157,18 @@ namespace NounSharp
         /// </summary>
         /// <param name="term">icon term</param>
         /// <returns></returns>
-        public Task<Models.Icon> GetIconAsync(string term)
+        public async Task<Models.Icon> GetIconAsync(string term)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetIconRequest(term);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconResponse>(response.Content)?.Icon;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         // Icons
@@ -164,9 +182,18 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool? limitToPublicDomain = null, int? limit = null, int? offset = null, int? page = null)
+        public async Task<IEnumerable<Models.Icon>> GetIconsAsync(string term, bool? limitToPublicDomain = null, int? limit = null, int? offset = null, int? page = null)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetIconsRequest(term, limitToPublicDomain, limit, offset, page);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconsResponse>(response.Content)?.Icons;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         /// <summary>
@@ -176,9 +203,18 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int? limit = null, int? offset = null, int? page = null)
+        public async Task<IEnumerable<Models.Icon>> GetIconRecentUploadsAsync(int? limit = null, int? offset = null, int? page = null)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetIconRecentUploadsRequest(limit, offset, page);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconsRecentUploadsResponse>(response.Content)?.RecentUploads;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         // User
@@ -189,9 +225,18 @@ namespace NounSharp
         /// <param name="userID">user id</param>
         /// <param name="slug">collection slug</param>
         /// <returns></returns>
-        public Task<Models.Collection> GetUserCollectionAsync(int userID, string slug)
+        public async Task<Models.Collection> GetUserCollectionAsync(int userID, string slug)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetUserCollectionRequest(userID, slug);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.CollectionResponse>(response.Content)?.Collection;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         /// <summary>
@@ -199,9 +244,18 @@ namespace NounSharp
         /// </summary>
         /// <param name="userID">user id</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Collection>> GetUserCollectionsAsync(int userID)
+        public async Task<IEnumerable<Models.Collection>> GetUserCollectionsAsync(int userID)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetUserCollectionsRequest(userID);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.CollectionsResponse>(response.Content)?.Collections;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
 
         /// <summary>
@@ -212,9 +266,18 @@ namespace NounSharp
         /// <param name="offset">number of results to displace or skip over</param>
         /// <param name="page">number of results of limit length to displace or skip over</param>
         /// <returns></returns>
-        public Task<IEnumerable<Models.Icon>> GetUserUploadsAsync(string username, int? limit = null, int? offset = null, int? page = null)
+        public async Task<IEnumerable<Models.Icon>> GetUserUploadsAsync(string username, int? limit = null, int? offset = null, int? page = null)
         {
-            throw new NotImplementedException();
+            IRestRequest restRequest = _requestBuilder.GetUserUploadsRequest(username, limit, offset, page);
+
+            var response = await _client.ExecuteTaskAsync(restRequest);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Internal.IconsUserUploadsResponse>(response.Content)?.Uploads;
+            }
+
+            // TODO: Throw exception
+            return null;
         }
     }
 }
