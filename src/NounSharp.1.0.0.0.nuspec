@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>NounSharp</id>
+        <version>1.0.0.0</version>
+        <title>NounSharp</title>
+        <authors>Yavor</authors>
+        <owners>Creative Safety Supply</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The Noun Project binding</description>
+    </metadata>
+    <files>
+        <file src="NounSharp\NounSharp\bin\Release\netstandard2.0\NounSharp.dll" target="lib\net40\NounSharp.dll" />
+    </files>
+</package>
