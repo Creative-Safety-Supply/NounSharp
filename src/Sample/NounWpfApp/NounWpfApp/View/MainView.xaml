@@ -9,6 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -18,9 +19,35 @@
             <Button Content="Go" Padding="6 0" Margin="3 0" IsDefault="True"
                     Command="{Binding SearchCommand, Mode=OneWay}"
                     CommandParameter="{Binding Text, ElementName=searchBox}"/>
+            <CheckBox Content="Limit to public domain" VerticalAlignment="Center" IsChecked="{Binding PublicDomainOnly, Mode=TwoWay}" />
         </StackPanel>
-        
-        <ItemsControl ItemsSource="{Binding Icons}" Grid.Row="1">
+
+        <ContentControl Grid.Row="1" Content="{Binding SelectedItem, ElementName=listView}" Background="WhiteSmoke" Width="540">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Height="200" Orientation="Vertical">
+                        <TextBlock Text="{Binding Term}" HorizontalAlignment="Left" />
+                        <Image Source="{Binding PreviewUrl84}" HorizontalAlignment="Center" Stretch="Uniform" Height="100" />
+
+                        <TextBlock>
+                            <Run Text="Permalink:" />
+                            <Run Text="{Binding Permalink, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Icon url:" />
+                            <Hyperlink NavigateUri="{Binding IconUrl, Mode=OneWay}"
+                                       Command="{Binding Path=DataContext.OpenLinkCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                       CommandParameter="{Binding IconUrl, Mode=OneWay}">
+                                <Run Text="{Binding IconUrl, Mode=OneWay}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+
+        <ListBox x:Name="listView" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="540" BorderThickness="0"
+                 ItemsSource="{Binding Icons}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel ItemWidth="84" ItemHeight="84" />
@@ -28,12 +55,12 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding PreviewUrl84}" />
+                    <Image Source="{Binding PreviewUrl84}" Margin="3" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </ListBox>
         
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Label Content="Key" />
             <TextBox Width="250" Text="{Binding Key, Mode=TwoWay}" VerticalContentAlignment="Center" />
             <Label Content="Secret" />
