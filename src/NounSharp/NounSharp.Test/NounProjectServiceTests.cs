@@ -210,5 +210,20 @@ namespace NounSharp.Test
             Assert.NotNull(result);
             // TODO: Add more checks
         }
+
+        [Fact]
+        public async void GetIconsByTermAsyncReturnsNothingWhenNotFound()
+        {
+            // Arrange
+            Mock<RestSharp.IRestClient> clientMock = new Mock<RestSharp.IRestClient>();
+            clientMock.Setup(c => c.ExecuteTaskAsync(It.Is<RestSharp.IRestRequest>(req => req.Resource == "icons/{term}"))).Returns(() => Task.FromResult(RestUtils.GetNotFoundResponse()));
+            INounProjectService target = new NounProjectService(clientMock.Object, new Internal.RequestBuilder());
+
+            // Act
+            var result = await target.GetIconsAsync("fun");
+
+            // Assert
+            Assert.Null(result);
+        }
     }
 }

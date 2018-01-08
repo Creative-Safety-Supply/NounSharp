@@ -217,7 +217,7 @@ namespace NounSharp
                     case System.Net.HttpStatusCode.Unauthorized:
                         throw new UnauthorizedAccessException(content);
                     case System.Net.HttpStatusCode.NotFound:
-                        throw new NotFoundException(content);
+                        return default(TResult);
                     default:
                         throw new System.Net.WebException(content);
                 }
